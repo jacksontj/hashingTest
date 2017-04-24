@@ -1,0 +1,33 @@
+While doing some work with distributed data, I needed to come up with a way to 
+test various algorithms/configurations' data distribution (and more importantly
+its behavior in a change in the shard topology). This is by no means a complete
+testing solution, but I've found this piece helpful-- feel free to use it :)
+
+This is a simple test for calculating the amount of key-overlap for various 
+hashing functions. This is done by generating a defined number of keys, hashing 
+them into a number of shards and then adding and removing shards to get an idea 
+of what will be moved. Here is the output of a run of it:
+
+
+
+    INFO[0000] Running tests for hashing. numKeys=100000, numHosts=10, numMoreHosts=2, numFewerHosts=2 
+    INFO[0000] Mod                                          
+    INFO[0000] Same: 100%, std-dev 6                        
+    INFO[0000] add: 16.648970924534463%, std-dev 13         
+    INFO[0000] remove: 19.99346618752042%, std-dev 0        
+    INFO[0000]                                              
+    INFO[0000] hashRing                                     
+    INFO[0000] Same: 100%, std-dev 844                      
+    INFO[0000] add: 84.2453446586083%, std-dev 698          
+    INFO[0000] remove: 79.47157791571382%, std-dev 1367     
+    INFO[0000]                                              
+    INFO[0001] consistenthash-100replica                    
+    INFO[0001] Same: 100%, std-dev 1775                     
+    INFO[0001] add: 67.14513230970272%, std-dev 3818        
+    INFO[0001] remove: 83.48272623325711%, std-dev 814      
+    INFO[0001]                                              
+    INFO[0001] JumpHashing                                  
+    INFO[0001] Same: 100%, std-dev 79                       
+    INFO[0001] add: 83.35102907546553%, std-dev 60          
+    INFO[0001] remove: 79.88504573668736%, std-dev 94       
+    INFO[0001]     
